@@ -31,9 +31,12 @@
           use-http2? true
           ssl-context (less-awful-ssl/ssl-context "certs/server.pkcs8" "certs/server.crt" "certs/rootCA.pem")
           configuration (undertow/options {:host "0.0.0.0"
-                                               :port port
-                                               :ssl-port ssl-port
-                                               :ssl-context ssl-context})
+                                           :keystore "certs/server.keystore"
+                                           :key-password "password"
+                                           :truststore "certs/server.truststore"
+                                           :trust-password "password"
+                                           :port port
+                                           :ssl-port ssl-port})
           configuration (if use-http2?
                           (update configuration :configuration
                             #(doto %

@@ -26,25 +26,15 @@
   (defn start!
     "Starts the application."
     []
-
-    (let [port 8080
-          ssl-port 8443
-          use-http2? true
-          ssl-context (less-awful-ssl/ssl-context "certs/server.pkcs8" "certs/server.crt" "certs/rootCA.pem")
-          configuration (undertow/options {:host "0.0.0.0"
-                                           :keystore "certs/server.keystore"
-                                           :key-password "password"
-                                           :truststore "certs/server.truststore"
-                                           :trust-password "password"
-                                           :port port
-                                           :ssl-port ssl-port})
-          configuration (if use-http2?
-                          (update configuration :configuration
-                            #(doto %
-                               (.setServerOption UndertowOptions/ENABLE_HTTP2 true)
-                               (.setServerOption UndertowOptions/ENABLE_SPDY true)))
-                          configuration)]
-      (reset! web-server-handle (web/run handler configuration))))
+    (reset! web-server-handle
+      (web/run handler
+        :http2? true
+        :keystore "certs/server.keystore"
+        :key-password "password"
+        :truststore "certs/server.truststore"
+        :trust-password "password"
+        :port 8080
+        :ssl-port 8443)))
 
   (defn stop!
     "Stops the application."

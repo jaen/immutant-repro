@@ -2,7 +2,8 @@
   (:require [immutant.web :as web]
             [immutant.web.undertow :as undertow]
             [less.awful.ssl :as less-awful-ssl])
-  (:import [io.undertow UndertowOptions]))
+  (:import [io.undertow UndertowOptions])
+  (:gen-class))
 
 ;; Defines.
 
